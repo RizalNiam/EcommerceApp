@@ -19,6 +19,7 @@ class CreateCartsTable extends Migration
             $table->string('book_id');
             $table->timestamps();
         });
+        
     }
 
     /**
