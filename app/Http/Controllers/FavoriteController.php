@@ -35,7 +35,7 @@ class FavoriteController extends Controller
 
         $rawData = DB::table('books')
         ->join('favorites', 'books.id', '=', 'favorites.book_id')
-        ->select('books.title as title','books.description', 'books.photo', 'books.price', 'books.category', 'books.created_at', 'books.updated_at')
+        ->select('books.title as title','books.description', 'books.photo', 'books.price', 'books.category','books.favorite', 'books.created_at', 'books.updated_at')
         ->where('favorites.user_id', '=', $user->id)
         ->get();      
         
