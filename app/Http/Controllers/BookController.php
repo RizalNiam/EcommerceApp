@@ -43,34 +43,12 @@ class BookController extends Controller
         return $this->requestSuccess('book successfully added');
     }
 
-    function test() {
-        $user = auth("api")->user();
-
-        $rawData = DB::table('books')
-        ->select('id', 'name', 'address', 'description', 'photo', 'category', 'budget', 'created_at', 'updated_at')
-        ->where('category', '=', 'children')
-        ->get(); 
-        
-        return $this->requestSuccessData('Success!', $rawData);
-    }
-
-    function get_nature_books() {
-        $user = auth("api")->user();
-
-        $rawData = DB::table('books')
-        ->select('id', 'name', 'address', 'description', 'photo', 'category', 'budget', 'created_at', 'updated_at')
-        ->where('category', '=', 'nature')
-        ->get(); 
-        
-        return $this->requestSuccessData('Success!', $rawData);
-    }
-
     function get_books() {
 
         $user = auth("api")->user();
 
         $rawData = DB::table('books')
-        ->select('*')
+        ->select('books.title as title','books.description', 'books.photo', 'books.price', 'books.category', 'favorite', 'books.created_at', 'books.updated_at')
         ->inRandomOrder()
         ->get(); 
         

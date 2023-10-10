@@ -20,6 +20,7 @@ class CreateBooksTable extends Migration
             $table->string('description', 2048);
             $table->string('photo');
             $table->string('category');
+            $table->boolean('favorite')->default(1);
             $table->timestamps();
         });
     }

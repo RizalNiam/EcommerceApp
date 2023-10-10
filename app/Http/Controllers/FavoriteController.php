@@ -11,23 +11,24 @@ class FavoriteController extends Controller
 {
     use ApiResponses;
 
-    public function add_favorite(Request $request) {
-        $validator = Validator::make(request()->all(), [
-            'book_id' => 'required|numeric|max:255',
-        ]);
-        
-        if ($validator->fails()) {
-            return $this->responseValidation($validator->errors(), 'book failed to add');
-        }
-
-        $user = auth('api')->user();
-
-        DB::table('favorites')->insert([
-            'book_id' => $request['book_id'],
-            'user_id' => $user->id,
-        ]);
+    public function set_favorite(Request $request) {
+        DB::table('books')
+            ->where('id', $request['book_id'])
+            ->update([
+                'favorite' => 1,
+            ]);
 
         return $this->requestSuccess('book successfully added');
+    }
+
+    public function unset_favorite(Request $request) {
+        DB::table('books')
+            ->where('id', $request['book_id'])
+            ->update([
+                'favorite' => 0,
+            ]);
+
+        return $this->requestSuccess('book successfully removed');
     }
 
     function get_favorites() {
