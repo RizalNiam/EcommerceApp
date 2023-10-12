@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponses;
 use Illuminate\Support\Facades\DB;
+use App\Models\Book;
 use Validator;
 
 class BookController extends Controller
@@ -47,12 +48,22 @@ class BookController extends Controller
 
         $user = auth("api")->user();
 
+        $books = Book::select('*')->get();
+
+        $books->map(function ($books) {
+           
+            $favorite = $books->favorite === 1 ? true : false;
+            $books->favorite = $favorite;
+
+            return $books;
+        });
+
         $rawData = DB::table('books')
         ->select('books.title as title','books.description', 'books.photo', 'books.price', 'books.category', 'favorite', 'books.created_at', 'books.updated_at')
         ->inRandomOrder()
-        ->get(); 
+        ->get();                                                                                
         
-        return $this->requestSuccessData('Success!', $rawData);
+        return $this->requestSuccessData('Success!', $books);
     }
 
     function get_favorites() {
